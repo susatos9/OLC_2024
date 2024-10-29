@@ -1,4 +1,4 @@
-export default function Button(theme: string, text: string) {
+export default function Button({ theme, text }: { theme: string, text: string }) {
 
   const orangeTheme = {
     display: `flex`,
@@ -19,7 +19,7 @@ export default function Button(theme: string, text: string) {
     alignItems: `center`,
     gap: '10px',
     backgroundColor: `#fa6400`,
-    color: `#ffffff`,
+    color: `#12333A`,
   }
 
   const style = theme === 'orangeTheme' ? orangeTheme : blueTheme;

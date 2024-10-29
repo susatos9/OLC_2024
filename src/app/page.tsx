@@ -1,6 +1,10 @@
 'use client'
 
-
+export type MainData = {
+  name: string;
+  theme: string;
+  text: string;
+}
 
 export default function Home() {
   return (
