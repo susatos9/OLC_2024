@@ -4,7 +4,7 @@ export default function FoodCard(props: Object) {
 
   return (<>
     <div className="w-full h-full flex px-[24px] py-[24px] flex-col-col justify-center items-center" style={style}>
-      <div className="h-[278px] items-stretch" style={{ backgroundImage: `url(${image})` }}>
+      <div className="h-[278px] items-stretch" style={{}}>
       </div>
       <div className=""></div>
       <div className=""></div>

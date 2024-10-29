@@ -18,7 +18,7 @@ export default function Button({ theme, text }: { theme: string, text: string })
     justifyContent: `center`,
     alignItems: `center`,
     gap: '10px',
-    backgroundColor: `#fa6400`,
+    backgroundColor: `#12333A`,
     color: `#12333A`,
   }
 
