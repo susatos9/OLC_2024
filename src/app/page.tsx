@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import GetProperty from '../utility_function/GetProperty';
 import FoodCard from '../components/FoodCard';
+import FoodCardList from '../components/FoodCardList';
 
 export type MainData = {
   name: string;
@@ -24,11 +25,9 @@ export default function Home() {
 
   return (
     <div>
-      <FoodCard
+      <FoodCardList
         myInput={state}
         setMyInput={setState}
-        image_url={GetProperty(state, 'image_url')}
-        menu_name={GetProperty(state, 'name')}
       />
     </div>
   )
