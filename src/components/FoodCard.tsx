@@ -12,8 +12,8 @@ interface FoodCardProps {
   imageWidth: number
   imageHeight: number
 }
-export default function FoodCard({ myInput, setMyInput }: FoodCardProps, image_url: string = 'https://picsum.photos/400/100', menu_name: string = 'default') {
-  const style = {
+export default function FoodCard({ myInput, setMyInput }: FoodCardProps, image_url: string = 'https://picsum.photos/562/278', menu_name: string = 'default') {
+  const FoodCardstyle = {
     display: 'flex',
     padding: '24px',
     'flex-direction': 'column',
@@ -26,8 +26,8 @@ export default function FoodCard({ myInput, setMyInput }: FoodCardProps, image_u
   const image = {};
 
   return (<>
-    <div className="" style={style}>
-      <Image src={image_url} alt={menu_name} width={400} height={100} />
+    <div className="" style={FoodCardstyle}>
+      <img src={image_url} alt={menu_name} />
       <TextThemed myInput={myInput} text={menu_name} />
       <Button props={{ myInput: myInput, setMyInput: setMyInput }} width={500} height={100} />
     </div >
