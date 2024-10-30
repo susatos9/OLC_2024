@@ -1,5 +1,17 @@
-export default function FoodCard(props: Object) {
-  const style = {};
+interface FoodCardProps {
+  image_url: string
+  menu_name: string
+}
+export default function FoodCard(props: FoodCardProps) {
+  const style = {
+    display: 'flex',
+    padding: '24px',
+    flexdirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '23px',
+    flex: '1 0 0',
+  }
   const image = {};
 
   return (<>

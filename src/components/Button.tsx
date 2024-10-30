@@ -12,14 +12,28 @@ type ButtonProps = {
 }
 
 export default function Button({ props: { myInput, setMyInput } }: ButtonProps, width?: number, height?: number, buttonType?: string) {
+  //Extract Property from props
   const theme = GetProperty(myInput, 'theme');
   const text = GetProperty(myInput, 'text');
 
+  //Determine the button type and set the variable accordingly
+  if (buttonType === 'changetheme') {
+    let onClick = () => {
+      let mutatedMyInput = { ...myInput, theme: myInput.theme === 'orangeTheme' ? 'blueTheme' : 'orangeTheme' }; //Create new Object using spread operator so react detect pointer change
+      setMyInput(mutatedMyInput);
+    };
+  } else if (buttonType === 'addtofavorites') {
+    let onClick = () => { }
+  } else {
+    let onClick = () => { }
+  }
+  //Define Function onClick
   let onClick = () => {
     let mutatedMyInput = { ...myInput, theme: myInput.theme === 'orangeTheme' ? 'blueTheme' : 'orangeTheme' }; //Create new Object using spread operator so react detect pointer change
     setMyInput(mutatedMyInput);
   };
 
+  //Style used in Button
   const ButtonStyle = {
     display: `flex`,
     minWidth: width ? `${width}px` : `100%`,
@@ -43,7 +57,7 @@ export default function Button({ props: { myInput, setMyInput } }: ButtonProps, 
   const blueTheme = {
     ...ButtonStyle,
     backgroundColor: `#12333A`,
-    color: `#12333A`,
+    color: `#ffffff`,
   }
 
   const style = theme === 'orangeTheme' ? orangeTheme : blueTheme;
