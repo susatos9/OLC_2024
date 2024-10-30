@@ -11,27 +11,28 @@ type ButtonProps = {
   buttonType?: string
 }
 
-export default function Button({ props: { myInput, setMyInput } }: ButtonProps, width?: number, height?: number, buttonType?: string) {
+export default function Button({ props: { myInput, setMyInput } }: ButtonProps, width?: number, height?: number, buttonType: string = 'changetheme') {
   //Extract Property from props
   const theme = GetProperty(myInput, 'theme');
   const text = GetProperty(myInput, 'text');
 
   //Determine the button type and set the variable accordingly
+  let onClicked;
   if (buttonType === 'changetheme') {
-    let onClick = () => {
+    let text = ''
+    onClicked = () => {
       let mutatedMyInput = { ...myInput, theme: myInput.theme === 'orangeTheme' ? 'blueTheme' : 'orangeTheme' }; //Create new Object using spread operator so react detect pointer change
       setMyInput(mutatedMyInput);
     };
   } else if (buttonType === 'addtofavorites') {
-    let onClick = () => { }
+    onClicked = () => { }
+  } else if (buttonType === 'removefromfavorites') {
+    onClicked = () => { }
+  } else if (buttonType === 'search') {
+    onClicked = () => { }
   } else {
-    let onClick = () => { }
+    onClicked = () => { }
   }
-  //Define Function onClick
-  let onClick = () => {
-    let mutatedMyInput = { ...myInput, theme: myInput.theme === 'orangeTheme' ? 'blueTheme' : 'orangeTheme' }; //Create new Object using spread operator so react detect pointer change
-    setMyInput(mutatedMyInput);
-  };
 
   //Style used in Button
   const ButtonStyle = {
@@ -64,7 +65,7 @@ export default function Button({ props: { myInput, setMyInput } }: ButtonProps, 
 
   return (
     <>
-      <button className="" style={style} onClick={onClick}>{text}</button>
+      <button className="" style={style} onClick={onClicked}>{text}</button>
     </>
   )
 }

@@ -1,9 +1,8 @@
 'use client'
-import Button from '../components/Button';
-import TextThemed from '../components/TextThemed';
 import { useState } from 'react';
 import Image from 'next/image';
 import GetProperty from '../utility_function/GetProperty';
+import FoodCard from '../components/FoodCard';
 
 export type MainData = {
   name: string;
@@ -25,8 +24,12 @@ export default function Home() {
 
   return (
     <div>
-      <Button props={{ myInput: state, setMyInput: setState }} width={500} height={100} />
-      <TextThemed myInput={state} text={texttest} />
+      <FoodCard
+        myInput={state}
+        setMyInput={setState}
+        image_url={GetProperty(state, 'image_url')}
+        menu_name={GetProperty(state, 'name')}
+      />
     </div>
   )
 }
