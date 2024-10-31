@@ -1,27 +1,17 @@
 import Button from '../components/Button';
-import type { MainData } from '../app/page.tsx';
+import type { MainData } from '../context/ThemeContext';
 import TextThemed from '../components/TextThemed';
 import GetProperty from '../utility_function/GetProperty';
 import Image from 'next/image';
 
 interface FoodCardProps {
-  myInput: MainData
-  setMyInput: (value: MainData) => void
-  image_url?: string
-  menu_name?: string
-  imageWidth?: number
-  imageHeight?: number
+  base_image_url?: string;
+  menu_name?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 }
 
-
-
-export default function FoodCard(
-  { myInput, setMyInput }: FoodCardProps,
-  base_image_url: string = 'https://picsum.photos',
-  menu_name: string = 'default',
-  imageWidth: number = 562,
-  imageHeight: number = 278,
-) {
+export default function FoodCard(props: FoodCardProps) {
   const foodCardstyle = {
     display: 'flex',
     padding: '24px',
@@ -34,18 +24,19 @@ export default function FoodCard(
   }
 
   const imageStyle = {
-    width: imageWidth ? imageWidth : '562px',
-    height: imageHeight ? imageHeight : '278px',
+    width: props.imageWidth ? props.imageWidth : 562,
+    height: props.imageWidth ? props.imageHeight : 278,
   }
 
-  let image_url = `${base_image_url}/${imageWidth}/${imageHeight}`;
+  let image_url: string = 'https://picsum.photos' + `/${imageStyle.width}/${imageStyle.height}`;
   const image = {};
 
   return (<>
     <div className="" style={foodCardstyle}>
-      <img src={image_url} alt={menu_name} />
-      <TextThemed myInput={myInput} text={menu_name} />
-      <Button props={{ myInput: myInput, setMyInput: setMyInput }} width={500} height={100} />
+      <img src={image_url} alt={props.menu_name} />
+      {/* TextThemed(menu_name)} #another way to use TextThemed components */}
+      <TextThemed text={props.menu_name} />
+      <Button />
     </div >
   </>
   )

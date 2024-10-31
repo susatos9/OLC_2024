@@ -1,12 +1,11 @@
-import type { MainData } from '../app/page.tsx';
+import type { MainData } from '../context/ThemeContext';
 import GetProperty from '../utility_function/GetProperty';
+import { createContext, useContext } from 'react';
+import ThemeContext from '../context/ThemeContext';
 
-type TextThemedPropsInput = {
-  myInput: MainData
-  text: string
-}
-export default function TextThemed({ myInput, text }: TextThemedPropsInput) {
-  const theme = GetProperty(myInput, 'theme');
+export default function TextThemed({ text }: { text?: string }) {
+  text = text?? 'default';
+  const theme = useContext(ThemeContext);
   const textThemeStyle = {
     TextAlign: 'center',
     /* Display lg/Bold */
@@ -16,7 +15,7 @@ export default function TextThemed({ myInput, text }: TextThemedPropsInput) {
     fontWeight: '700',
     lineHeight: '60px', /* 125% */
     letterSpacing: '-0.96px',
-    color: theme === 'orangeTheme' ? '#fa6400' : '#12333A',
+    color: theme.state.theme === 'orangeTheme' ? '#fa6400' : '#12333A',
   }
   return (
     <>

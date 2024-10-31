@@ -1,28 +1,20 @@
-import type { MainData } from '../app/page.tsx';
+import type { MainData } from '../context/ThemeContext';
 import GetProperty from '../utility_function/GetProperty';
+import { createContext, useContext } from 'react';
+import ThemeContext from '../context/ThemeContext';
 
-type ButtonProps = {
-  props: {
-    myInput: MainData
-    setMyInput: (value: MainData) => void
-  }
-  width?: number
-  height?: number
-  buttonType?: string
-}
+//Optional arguments should be passed by a single object
 
-export default function Button({ props: { myInput, setMyInput } }: ButtonProps, width?: number, height?: number, buttonType: string = 'changetheme') {
-  //Extract Property from props
-  const theme = GetProperty(myInput, 'theme');
-  const text = GetProperty(myInput, 'text');
+export default function Button(dimension?:{width?: number; height?: number}, buttonType: string = 'changetheme', text: string = 'default') {
+  const theme = useContext(ThemeContext);
 
   //Determine the button type and set the variable accordingly
   let onClicked;
   if (buttonType === 'changetheme') {
     let text = ''
     onClicked = () => {
-      let mutatedMyInput = { ...myInput, theme: myInput.theme === 'orangeTheme' ? 'blueTheme' : 'orangeTheme' }; //Create new Object using spread operator so react detect pointer change
-      setMyInput(mutatedMyInput);
+      let mutatedMyInput = { ...theme.state, theme: theme.state.theme === 'orangeTheme' ? 'blueTheme' : 'orangeTheme' }; //Create new Object using spread operator so react detect pointer change
+      theme.setState(mutatedMyInput);
     };
   } else if (buttonType === 'addtofavorites') {
     onClicked = () => { }
@@ -37,8 +29,8 @@ export default function Button({ props: { myInput, setMyInput } }: ButtonProps, 
   //Style used in Button
   const ButtonStyle = {
     display: `flex`,
-    minWidth: width ? `${width}px` : `100%`,
-    minHeight: height ? `${height}px` : `100%`,
+    minWidth: dimension? `${dimension.width}px` : `100%`,
+    minHeight: dimension? `${dimension.height}px` : `100%`,
     padding: `16px 32px`,
     justifyContent: `center`,
     alignItems: `center`,
@@ -61,7 +53,7 @@ export default function Button({ props: { myInput, setMyInput } }: ButtonProps, 
     color: `#ffffff`,
   }
 
-  const style = theme === 'orangeTheme' ? orangeTheme : blueTheme;
+  const style = theme.state.theme === 'orangeTheme' ? orangeTheme : blueTheme;
 
   return (
     <>

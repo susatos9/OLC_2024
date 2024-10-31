@@ -1,16 +1,17 @@
 'use client'
-import { useState } from 'react';
-import Image from 'next/image';
-import GetProperty from '../utility_function/GetProperty';
-import FoodCard from '../components/FoodCard';
 import FoodCardList from '../components/FoodCardList';
+import { createContext, useContext, useState } from 'react';
+import ThemeContext, { MainData } from '../context/ThemeContext';
+import SearchField from '../components/SearchField';
 
-export type MainData = {
-  name: string;
-  theme: string;
-  text: string;
-  image_url: string;
+const style = {
+  display: 'flex',
+  width: '1440px',
+  padding: '80px 90px',
+  alignItems: 'center',
+  gap: '80px',
 }
+
 
 export default function Home() {
 
@@ -20,15 +21,15 @@ export default function Home() {
     text: 'test',
     image_url: 'test'
   });
-
-  let texttest = 'helllo';
+  useContext(ThemeContext);
 
   return (
-    <div>
-      <FoodCardList
-        myInput={state}
-        setMyInput={setState}
-      />
-    </div>
+    <ThemeContext.Provider value={{ state, setState }}>
+      <div className='flex-col' style={style}>
+        <SearchField />
+      </div>
+    </ThemeContext.Provider>
   )
 }
+
+
