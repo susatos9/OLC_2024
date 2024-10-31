@@ -2,11 +2,9 @@ import type { MainData } from '../context/ThemeContext';
 import FoodCard from '../components/FoodCard';
 
 interface FoodCardListProps {
-  myInput: MainData
-  setMyInput: (value: MainData) => void
 }
 
-export default function FoodCardList({ myInput, setMyInput }: FoodCardListProps) {
+export default function FoodCardList({ }: FoodCardListProps) {
   const FoodCardListStyle = {
     display: 'flex',
     'flex-direction': 'row',

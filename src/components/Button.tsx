@@ -3,9 +3,15 @@ import GetProperty from '../utility_function/GetProperty';
 import { createContext, useContext } from 'react';
 import ThemeContext from '../context/ThemeContext';
 
+interface ButtonProps {
+  dimension?: { width?: number; height?: number };
+  buttonType?: string;
+  text?: string;
+}
+
 //Optional arguments should be passed by a single object
 
-export default function Button(dimension?:{width?: number; height?: number}, buttonType: string = 'changetheme', text: string = 'default') {
+export default function Button({dimension = {}, buttonType, text}: ButtonProps) {
   const theme = useContext(ThemeContext);
 
   //Determine the button type and set the variable accordingly
