@@ -1,0 +1,11 @@
+.search-field {
+  color: black;             /* Sets text color to black */
+  border: 1px solid #ccc;    /* Optional: add a light border */
+  padding: 8px;
+  border-radius: 4px;        /* Optional: adds rounded corners */
+}
+
+.search-field:focus {
+  outline: none;             /* Removes the outline when clicked */
+  border-color: #ccc;        /* Keeps the border color unchanged on focus */
+}

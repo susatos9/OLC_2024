@@ -5,6 +5,7 @@ import ThemeContext, { MainData } from '../context/ThemeContext';
 import SearchField from '../components/SearchField';
 import FoodCard from '../components/FoodCard';
 import Button from '@/components/Button';
+import MenuField from '@/components/MenuField';
 
 
 
@@ -20,21 +21,21 @@ export default function Home() {
   const style = {
     display: 'flex',
     width: '100%',
-    height: '100vh',
+    height: '100%',
     padding: '80px 90px',
     alignItems: 'center',
     gap: '80px',
     justifyContent: 'center',
-    backgroundColor: state.theme === 'blueTheme' ? '#FEB300' : '#12333A',
+    // backgroundColor: state.theme === 'blueTheme' ? '#FEB300' : '#12333A',
   }
   useContext(ThemeContext);
 
   return (
     <ThemeContext.Provider value={{ state, setState }}>
       <div className='flex-col' style={style}>
-        <SearchField />
-        {/* <FoodCardList /> */}
-        {/* <Button buttonType='changetheme' text='change theme' /> */}
+        <Button text="Change Theme" buttonType="changetheme" />
+        <MenuField type='Remove From Favorites' text='Favorites' />
+        <MenuField type='Add To Favorites' />
       </div>
     </ThemeContext.Provider>
   )

@@ -9,9 +9,11 @@ interface FoodCardProps {
   menu_name?: string;
   imageWidth?: number;
   imageHeight?: number;
+  cardtype?: string;
 }
 
-export default function FoodCard(props: FoodCardProps) {
+export default function FoodCard({ base_image_url, menu_name, imageWidth, imageHeight, cardtype }: FoodCardProps) {
+  cardtype = cardtype ? cardtype : 'default';
   const foodCardstyle = {
     display: 'flex',
     padding: '24px',
@@ -24,8 +26,8 @@ export default function FoodCard(props: FoodCardProps) {
   }
 
   const imageStyle = {
-    width: props.imageWidth ? props.imageWidth : 562,
-    height: props.imageWidth ? props.imageHeight : 278,
+    width: imageWidth ? imageWidth : 562,
+    height: imageWidth ? imageHeight : 278,
   }
 
   let image_url: string = 'https://picsum.photos' + `/${imageStyle.width}/${imageStyle.height}`;
@@ -33,10 +35,10 @@ export default function FoodCard(props: FoodCardProps) {
 
   return (<>
     <div className="" style={foodCardstyle}>
-      <img src={image_url} alt={props.menu_name} />
+      <img src={image_url} alt={menu_name} />
       {/* TextThemed(menu_name)} #another way to use TextThemed components */}
-      <TextThemed text={props.menu_name} />
-      <Button />
+      <TextThemed text={menu_name} />
+      <Button text={cardtype} />
     </div >
   </>
   )
