@@ -1,24 +1,26 @@
-import { defaultHead } from 'next/head';
 import FoodCardList from './FoodCardList';
-import SearchField from './SearchField';
 import TextThemed from './TextThemed';
 import React, { useReducer, useEffect, ChangeEvent } from 'react';
 import Button from './Button';
 
-interface MenuFieldProps {
-  type: string
-  text?: string
-}
-
-type Recipe = {
+interface Recipe {
   id: number;
   title: string;
   image: string;
-};
+  imageType?: string;
+}
+
+interface MenuFieldProps {
+  type: string;
+  text?: string;
+  favorites?: Recipe[];
+  onAddToFavorites?: (recipe: Recipe) => void;
+  onRemoveFromFavorites?: (recipeId: number) => void;
+}
 
 type State = {
   searchTerm: string;
-  results: []; // Adjust the type based on the structure of your API response
+  results: Recipe[];
   loading: boolean;
   error: string | null;
 };
@@ -33,10 +35,8 @@ const initialState: State = {
 type Action =
   | { type: 'SET_SEARCH_TERM'; payload: string }
   | { type: 'SET_LOADING'; payload: boolean }
-  | { type: 'SET_RESULTS'; payload: [] }
+  | { type: 'SET_RESULTS'; payload: Recipe[] }
   | { type: 'SET_ERROR'; payload: string | null };
-
-
 
 // Reducer function
 const reducer = (state: State, action: Action): State => {
@@ -54,12 +54,10 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-
-
-const formstyle = {
+const formStyle = {
   display: 'flex',
   minWidth: '500px',
-  minheight: '100%',
+  minHeight: '100%',
   padding: '16px 32px',
   justifyContent: 'center',
   alignItems: 'center',
@@ -68,11 +66,9 @@ const formstyle = {
   fontSize: '24px',
   fontWeight: '700',
   color: 'black',
-}
+};
 
-
-
-export default function({ type, text }: MenuFieldProps) {
+export default function MenuField({ type, text, favorites, onAddToFavorites, onRemoveFromFavorites }: MenuFieldProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -80,57 +76,77 @@ export default function({ type, text }: MenuFieldProps) {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent the form from reloading the page
-    // Any other code needed when the search button is clicked can go here
+    e.preventDefault();
     dispatch({ type: 'SET_LOADING', payload: true });
   };
 
   useEffect(() => {
-    if (state.searchTerm === '') {
-      dispatch({ type: 'SET_RESULTS', payload: [] });
-      return;
+    if (type === 'Add To Favorites' && state.searchTerm) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(
+            `https://api.spoonacular.com/recipes/complexSearch?query=${state.searchTerm}&apiKey=7411df78ae79487680bfc16df267c75f`
+          );
+          if (!response.ok) throw new Error('Failed to fetch data');
+          const data = await response.json();
+          dispatch({ type: 'SET_RESULTS', payload: data.results });
+        } catch (error) {
+          dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Unknown error' });
+        }
+      };
+
+      fetchData();
+    } else if (type !== 'Add To Favorites') {
+      // Use a predefined array for other types
+      const defaultRecipes: Recipe[] = [
+        {
+          id: 1,
+          title: 'Sample Dish 1',
+          image: 'https://via.placeholder.com/150',
+        },
+        {
+          id: 2,
+          title: 'Sample Dish 2',
+          image: 'https://via.placeholder.com/150',
+        },
+      ];
+      dispatch({ type: 'SET_RESULTS', payload: favorites ? favorites : defaultRecipes });
+      console.log(favorites);
     }
+  }, [state.searchTerm, type]);
 
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`https://api.spoonacular.com/recipes/complexSearch?query=${state.searchTerm}&apiKey=7411df78ae79487680bfc16df267c75f`);
-        if (!response.ok) throw new Error('Failed to fetch data');
-        const data = await response.json();
-        console.log(data.results);
-        dispatch({ type: 'SET_RESULTS', payload: data.results });
-      } catch (error) {
-        dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Unknown error' });
-      }
-    };
-
-    fetchData();
-  }, [state.searchTerm]);
-
-  let MenuFieldStyle = {
+  const MenuFieldStyle = {
     display: 'flex',
-    'flex-direction': 'column',
+    flexDirection: 'column' as const,
     alignItems: 'center',
     gap: '40px',
     alignSelf: 'stretch',
   };
 
-  if (type === 'Add To Favorites') {
-    return (
-      <div style={MenuFieldStyle}>
-        {text && <TextThemed text={text} />}
+  return (
+    <div style={MenuFieldStyle}>
+      {text && <TextThemed text={text} />}
+      {type === 'Add To Favorites' ? (
         <form className="flex flex-row gap-10" onSubmit={handleSubmit}>
           <input
             value={state.searchTerm}
             onChange={handleSearch}
             type="text"
             name="search"
-            style={formstyle}
+            style={formStyle}
             className="search-field:focus search-field:valid search-field:not(:placeholder-shown)"
           />
-          <Button text="Search" buttonType="search" /> {/* No need for onClick, form submit handles it */}
+          <Button text="Search" buttonType="search" />
         </form>
-        <FoodCardList type={type} data={state.results} />
-      </div>
-    );
-  }
+      ) : (
+        <p>Showing default dishes</p>
+      )}
+      <FoodCardList
+        type={type}
+        data={state.results.map(recipe => ({ ...recipe, imageType: 'default' }))}
+        onAddToFavorites={onAddToFavorites}
+        onRemoveFromFavorites={onRemoveFromFavorites}
+      />
+    </div>
+  );
 }

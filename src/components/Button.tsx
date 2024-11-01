@@ -1,18 +1,26 @@
-import type { MainData } from '../context/ThemeContext';
-import GetProperty from '../utility_function/GetProperty';
 import { createContext, useContext } from 'react';
 import ThemeContext from '../context/ThemeContext';
+
+interface Recipe {
+  id: number;
+  title: string;
+  image: string;
+  imageType?: string;
+}
+
 
 interface ButtonProps {
   dimension?: { width?: number; height?: number };
   buttonType?: string;
   text?: string;
   clicked?: any;
+  onAddToFavorites?: any;
+  onRemoveFromFavorites?: any;
 }
 
 //Optional arguments should be passed by a single object
 
-export default function Button({ dimension = {}, buttonType, text, clicked }: ButtonProps) {
+export default function Button({ dimension = {}, buttonType, text, clicked, onAddToFavorites }: ButtonProps) {
   const theme = useContext(ThemeContext);
 
   //Determine the button type and set the variable accordingly

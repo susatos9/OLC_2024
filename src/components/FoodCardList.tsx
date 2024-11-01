@@ -1,4 +1,3 @@
-import type { MainData } from '../context/ThemeContext';
 import FoodCard from '../components/FoodCard';
 
 interface FoodCardListProps {
@@ -8,10 +7,13 @@ interface FoodCardListProps {
     title: string;
     image: string;
     imageType: string;
+
   }[];
+  onAddToFavorites?: any;
+  onRemoveFromFavorites?: any;
 }
 
-export default function FoodCardList({ type, data = [] }: FoodCardListProps) {
+export default function FoodCardList({ type, data = [], onAddToFavorites, onRemoveFromFavorites }: FoodCardListProps) {
   const FoodCardListStyle = {
     display: 'flex',
     'flex-direction': 'row',
