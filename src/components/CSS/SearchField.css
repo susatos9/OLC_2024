@@ -7,5 +7,16 @@
 
 .search-field:focus {
   outline: none;             /* Removes the outline when clicked */
-  border-color: #ccc;        /* Keeps the border color unchanged on focus */
+  border: none;        /* Keeps the border color unchanged on focus */
+}
+
+
+.search-field:valid {
+    outline: none;
+    border: none;  /* Remove border when focused or valid */
+}
+
+.search-field:not(:placeholder-shown) {
+    outline: none;
+    border: none;  /* Remove border when there is text */
 }

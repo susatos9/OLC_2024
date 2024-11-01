@@ -1,9 +1,31 @@
 import Button from './Button';
 import type { MainData } from '../context/ThemeContext';
 import '../components/CSS/SearchField.css';
+import React, { useReducer, useEffect, ChangeEvent } from 'react';
+
+interface SearchFieldProps {
+  type?: string
+  text?: string
+  clicked?: () => void
+  input?: any
+  dispatch?: any
+}
+
+export default function SearchField({ type, text, clicked, input, dispatch }: SearchFieldProps) {
+
+  const [inputValue, setInputValue] = React.useState('');
+  useEffect(() => {
+    dispatch(inputValue);
+  }, [inputValue, dispatch])
+
+  useEffect(() => {
+    if (input && input.searchTerm !== inputValue) {
+      dispatch({...input, searchTerm: inputValue});
+    }
+    console.log(input.searchTerm)
+  }, [input]);
 
 
-export default function SearchField() {
   const style = {
     display: 'flex',
     minWidth: '500px',
@@ -17,12 +39,11 @@ export default function SearchField() {
     fontWeight: '700',
     color: 'black',
   }
-  let onSubmit = () => { }
   return (
     <>
-      <form onSubmit={onSubmit} className='flex flex-row gap-10'>
-        <input type="text" name="search" style={style} className='search-field:focus' />
-        <Button text="Search" buttonType="search" />
+      <form className='flex flex-row gap-10'>
+        <input value={inputValue} onChange={(e) => { setInputValue(e.target.value) }} type="text" name="search" style={style} className='search-field:focus search-field:valid search-field:not(:placeholder-shown)' />
+        <Button text="Search" buttonType="search" clicked={clicked} />
       </form>
     </>
   )

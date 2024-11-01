@@ -7,11 +7,12 @@ interface ButtonProps {
   dimension?: { width?: number; height?: number };
   buttonType?: string;
   text?: string;
+  clicked?: () => void;
 }
 
 //Optional arguments should be passed by a single object
 
-export default function Button({dimension = {}, buttonType, text}: ButtonProps) {
+export default function Button({ dimension = {}, buttonType, text, clicked }: ButtonProps) {
   const theme = useContext(ThemeContext);
 
   //Determine the button type and set the variable accordingly
@@ -27,7 +28,7 @@ export default function Button({dimension = {}, buttonType, text}: ButtonProps) 
   } else if (buttonType === 'removefromfavorites') {
     onClicked = () => { }
   } else if (buttonType === 'search') {
-    onClicked = () => { }
+    onClicked = clicked
   } else {
     onClicked = () => { }
   }
@@ -35,8 +36,8 @@ export default function Button({dimension = {}, buttonType, text}: ButtonProps) 
   //Style used in Button
   const ButtonStyle = {
     display: `flex`,
-    minWidth: dimension? `${dimension.width}px` : `100%`,
-    minHeight: dimension? `${dimension.height}px` : `100%`,
+    minWidth: dimension ? `${dimension.width}px` : `100%`,
+    minHeight: dimension ? `${dimension.height}px` : `100%`,
     padding: `16px 32px`,
     justifyContent: `center`,
     alignItems: `center`,

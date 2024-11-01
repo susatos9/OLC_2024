@@ -26,7 +26,7 @@ export default function Home() {
     alignItems: 'center',
     gap: '80px',
     justifyContent: 'center',
-    // backgroundColor: state.theme === 'blueTheme' ? '#FEB300' : '#12333A',
+    backgroundColor: state.theme === 'blueTheme' ? '#FEB300' : '#12333A',
   }
   useContext(ThemeContext);
 
