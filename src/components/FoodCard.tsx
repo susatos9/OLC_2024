@@ -30,7 +30,8 @@ export default function FoodCard({ base_image_url, menu_name, imageWidth, imageH
     height: imageWidth ? imageHeight : 278,
   }
 
-  let image_url: string = 'https://picsum.photos' + `/${imageStyle.width}/${imageStyle.height}`;
+  // let image_url: string = 'https://picsum.photos' + `/${imageStyle.width}/${imageStyle.height}`;
+  let image_url = base_image_url ? base_image_url : 'https://picsum.photos' + `/${imageStyle.width}/${imageStyle.height}`;
   const image = {};
 
   return (<>

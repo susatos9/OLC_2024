@@ -2,28 +2,29 @@ import type { MainData } from '../context/ThemeContext';
 import FoodCard from '../components/FoodCard';
 
 interface FoodCardListProps {
-  type?: string
-  data?: []
+  type?: string;
+  data?: {
+    id: number;
+    title: string;
+    image: string;
+    imageType: string;
+  }[];
 }
 
-export default function FoodCardList({ type, data }: FoodCardListProps) {
-  let dummyData = [['default1', 'default2'], ['default1', 'default2'], ['default1', 'default2']]
+export default function FoodCardList({ type, data = [] }: FoodCardListProps) {
   const FoodCardListStyle = {
     display: 'flex',
     'flex-direction': 'row',
     alignItems: 'flex-start',
     gap: '40px',
     alignSelf: 'stretch',
-  }
+  };
+
   return (
-    <>
-      <div style={FoodCardListStyle} className='flex-row'>
-        {dummyData.map((data, index) => {
-          return (
-            <FoodCard key={index} menu_name={data[0]} cardtype={type} />
-          )
-        })}
-      </div>
-    </>
-  )
+    <div style={FoodCardListStyle} className="flex-row">
+      {data.map((item, index) => (
+        <FoodCard key={item.id} menu_name={item.title} base_image_url={item.image} cardtype={type} />
+      ))}
+    </div>
+  );
 }

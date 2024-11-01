@@ -7,7 +7,7 @@ interface ButtonProps {
   dimension?: { width?: number; height?: number };
   buttonType?: string;
   text?: string;
-  clicked?: () => void;
+  clicked?: any;
 }
 
 //Optional arguments should be passed by a single object
