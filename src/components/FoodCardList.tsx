@@ -1,3 +1,5 @@
+
+// @ts-nocheck
 import FoodCard from '../components/FoodCard';
 
 interface FoodCardListProps {

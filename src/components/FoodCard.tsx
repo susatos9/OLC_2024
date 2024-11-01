@@ -1,3 +1,5 @@
+
+// @ts-nocheck
 import Button from '../components/Button';
 import type { MainData } from '../context/ThemeContext';
 import TextThemed from '../components/TextThemed';

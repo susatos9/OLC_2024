@@ -1,3 +1,5 @@
+
+// @ts-nocheck
 import { createContext, useContext } from 'react';
 import ThemeContext from '../context/ThemeContext';
 

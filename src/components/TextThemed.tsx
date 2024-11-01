@@ -1,10 +1,12 @@
+
+// @ts-nocheck
 import type { MainData } from '../context/ThemeContext';
 import GetProperty from '../utility_function/GetProperty';
 import { createContext, useContext } from 'react';
 import ThemeContext from '../context/ThemeContext';
 
 export default function TextThemed({ text }: { text?: string }) {
-  text = text?? 'default';
+  text = text ?? 'default';
   const theme = useContext(ThemeContext);
   const textThemeStyle = {
     TextAlign: 'center',

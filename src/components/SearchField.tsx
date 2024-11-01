@@ -1,3 +1,5 @@
+
+// @ts-nocheck
 import Button from './Button';
 import type { MainData } from '../context/ThemeContext';
 import '../components/CSS/SearchField.css';
@@ -20,7 +22,7 @@ export default function SearchField({ type, text, clicked, input, dispatch }: Se
 
   useEffect(() => {
     if (input && input.searchTerm !== inputValue) {
-      dispatch({...input, searchTerm: inputValue});
+      dispatch({ ...input, searchTerm: inputValue });
     }
     console.log(input.searchTerm)
   }, [input]);

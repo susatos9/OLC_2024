@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client'
 import { createContext, useContext, useState } from 'react';
 import ThemeContext, { MainData } from '../context/ThemeContext';

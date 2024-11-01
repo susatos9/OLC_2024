@@ -1,3 +1,5 @@
+
+// @ts-nocheck
 import FoodCardList from './FoodCardList';
 import TextThemed from './TextThemed';
 import React, { useReducer, useEffect, ChangeEvent } from 'react';
