@@ -28,7 +28,19 @@ export default function Home() {
     image_url: 'test'
   });
 
-  const [favorites, setFavorites] = useState<Recipe[]>([]);
+  const [favorites, setFavorites] = useState<Recipe[]>([{
+    "id": 652813,
+    "title": "Mutton Rendang",
+    "image": "https://img.spoonacular.com/recipes/652813-312x231.jpg",
+    "imageType": "jpg"
+  },
+  {
+    "id": 665624,
+    "title": "Zaianne's Beef Rendang",
+    "image": "https://img.spoonacular.com/recipes/665624-312x231.jpg",
+    "imageType": "jpg"
+  }
+  ]);
 
   const style = {
     display: 'flex',
@@ -43,6 +55,7 @@ export default function Home() {
   useContext(ThemeContext);
 
   const handleAddToFavorites = (recipe: Recipe) => {
+    console.log(recipe)
     setFavorites([...favorites, recipe]);
   };
 

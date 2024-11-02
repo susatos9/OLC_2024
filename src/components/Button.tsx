@@ -12,6 +12,7 @@ interface Recipe {
 
 
 interface ButtonProps {
+  key?: number;
   dimension?: { width?: number; height?: number };
   buttonType?: string;
   text?: string;
@@ -22,7 +23,7 @@ interface ButtonProps {
 
 //Optional arguments should be passed by a single object
 
-export default function Button({ dimension = {}, buttonType, text, clicked, onAddToFavorites }: ButtonProps) {
+export default function Button({ key, dimension = {}, buttonType, text, clicked, onAddToFavorites, onRemoveFromFavorites }: ButtonProps) {
   const theme = useContext(ThemeContext);
 
   //Determine the button type and set the variable accordingly
@@ -34,9 +35,9 @@ export default function Button({ dimension = {}, buttonType, text, clicked, onAd
       theme.setState(mutatedMyInput);
     };
   } else if (buttonType === 'addtofavorites') {
-    onClicked = () => { }
+    onClicked = onAddToFavorites(favorites.map(key => recipe.id));
   } else if (buttonType === 'removefromfavorites') {
-    onClicked = () => { }
+    onClicked = onRemoveFromFavorites
   } else if (buttonType === 'search') {
     onClicked = clicked
   } else {

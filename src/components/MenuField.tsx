@@ -91,6 +91,7 @@ export default function MenuField({ type, text, favorites, onAddToFavorites, onR
           );
           if (!response.ok) throw new Error('Failed to fetch data');
           const data = await response.json();
+          console.log(data);
           dispatch({ type: 'SET_RESULTS', payload: data.results });
         } catch (error) {
           dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Unknown error' });
@@ -102,15 +103,17 @@ export default function MenuField({ type, text, favorites, onAddToFavorites, onR
       // Use a predefined array for other types
       const defaultRecipes: Recipe[] = [
         {
-          id: 1,
-          title: 'Sample Dish 1',
-          image: 'https://via.placeholder.com/150',
+          "id": 652813,
+          "title": "Mutton Rendang",
+          "image": "https://img.spoonacular.com/recipes/652813-312x231.jpg",
+          "imageType": "jpg"
         },
         {
-          id: 2,
-          title: 'Sample Dish 2',
-          image: 'https://via.placeholder.com/150',
-        },
+          "id": 665624,
+          "title": "Zaianne's Beef Rendang",
+          "image": "https://img.spoonacular.com/recipes/665624-312x231.jpg",
+          "imageType": "jpg"
+        }
       ];
       dispatch({ type: 'SET_RESULTS', payload: favorites ? favorites : defaultRecipes });
       console.log(favorites);
@@ -141,7 +144,7 @@ export default function MenuField({ type, text, favorites, onAddToFavorites, onR
           <Button text="Search" buttonType="search" />
         </form>
       ) : (
-        <p>Showing default dishes</p>
+        <p></p>
       )}
       <FoodCardList
         type={type}

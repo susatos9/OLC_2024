@@ -7,6 +7,7 @@ import GetProperty from '../utility_function/GetProperty';
 import Image from 'next/image';
 
 interface FoodCardProps {
+  mykey?: number;
   base_image_url?: string;
   menu_name?: string;
   imageWidth?: number;
@@ -14,7 +15,7 @@ interface FoodCardProps {
   cardtype?: string;
 }
 
-export default function FoodCard({ base_image_url, menu_name, imageWidth, imageHeight, cardtype }: FoodCardProps) {
+export default function FoodCard({ mykey, base_image_url, menu_name, imageWidth, imageHeight, cardtype }: FoodCardProps) {
   cardtype = cardtype ? cardtype : 'default';
   const foodCardstyle = {
     display: 'flex',
@@ -41,7 +42,7 @@ export default function FoodCard({ base_image_url, menu_name, imageWidth, imageH
       <img src={image_url} alt={menu_name} />
       {/* TextThemed(menu_name)} #another way to use TextThemed components */}
       <TextThemed text={menu_name} />
-      <Button text={cardtype} />
+      <Button key={mykey} text={cardtype} />
     </div >
   </>
   )
