@@ -15,7 +15,9 @@ export default function Home() {
     name: 'test',
     theme: 'blueTheme',
     text: 'test',
-    image_url: 'test'
+    image_url: 'test',
+    favorites: [],
+    searchResult: [],
   });
 
   const style = {
