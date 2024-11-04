@@ -1,8 +1,6 @@
 import type { MainData } from '../context/ThemeContext';
-import GetProperty from '../utility_function/GetProperty';
-import { createContext, useContext } from 'react';
+import { useContext, useState, useCallback } from 'react';
 import ThemeContext from '../context/ThemeContext';
-import { useState } from 'react';
 
 interface ButtonProps {
   id?: number;
@@ -12,97 +10,86 @@ interface ButtonProps {
   clicked?: any;
 }
 
-//Optional arguments should be passed by a single object
-
 export default function Button({ id, dimension = {}, buttonType, text, clicked }: ButtonProps) {
-  const context = useContext(ThemeContext);
-  const state = context.state;
-  const setState = context.setState;
+  console.log(id);
+  const { state, setState } = useContext(ThemeContext);
 
-
-  const [changeFavoriteButtonClicked, setchangeFavoriteButtonClicked] = useState(false);
-  const handlechangeFavoriteButtonClicked = () => {
-    setchangeFavoriteButtonClicked(changeFavoriteButtonClicked => !changeFavoriteButtonClicked);
+  const addtofavorites = useCallback((id: number) => {
     console.log(id);
-    console.log(changeFavoriteButtonClicked);
-  };
-
-  const theme = useContext(ThemeContext);
-
-  const addtofavorites = (id: number) => {
+    const alreadyAdded = state.favorites.find(item => item.id === id);
     const selectedItem = state.searchResult.find(item => item.id === id);
-    if (selectedItem) {
-      const selectedItemtoset = [...state.favorites, selectedItem];
-      setState({ ...state, favorites: selectedItemtoset });
-      console.log('error')
-      return
+    if (selectedItem && !alreadyAdded) {
+      const updatedFavorites = [...state.favorites, selectedItem];
+      setState({ ...state, favorites: updatedFavorites });
+      console.log('Item added to favorites');
+    } else {
+      console.log('Item not found');
     }
-    console.log('item not found');
-    return
-  }
+  }, [state, setState]);
 
-  const removefromfavorites = (id: number) => {
+  const removefromfavorites = useCallback((id: number) => {
+    console.log(id);
     const selectedItem = state.favorites.find(item => item.id === id);
     if (selectedItem) {
-      const selectedItemtoset = state.favorites.filter(item => item.id !== id);
-      setState({ ...state, favorites: selectedItemtoset });
-      console.log('error')
-      return
+      const updatedFavorites = state.favorites.filter(item => item.id !== id);
+      setState({ ...state, favorites: updatedFavorites });
+      console.log('Item removed from favorites');
+    } else {
+      console.log('Item not found');
     }
-    console.log('item not found');
-    return
-  }
+  }, [state, setState]);
 
+  const toggleTheme = useCallback(() => {
+    const newTheme = state.theme === 'orangeTheme' ? 'blueTheme' : 'orangeTheme';
+    setState({ ...state, theme: newTheme });
+  }, [state, setState]);
 
-  //Determine the button type and set the variable accordingly
-  let onClicked;
-  if (buttonType === 'changetheme') {
-    onClicked = () => {
-      let mutatedMyInput = { ...theme.state, theme: theme.state.theme === 'orangeTheme' ? 'blueTheme' : 'orangeTheme' }; //Create new Object using spread operator so react detect pointer change
-      theme.setState(mutatedMyInput);
-    };
-  } else if (buttonType === 'addtofavorites') {
-    onClicked = addtofavorites;
-  } else if (buttonType === 'removefromfavorites') {
-    onClicked = removefromfavorites;
-  } else if (buttonType === 'search') {
-    onClicked = clicked
-  } else {
-    onClicked = () => { }
-  }
+  // Determine the button action based on `buttonType`
+  const onClicked = useCallback(() => {
+    console.log('button clicked');
+    console.log('buttonType is ' + buttonType)
+    switch (buttonType) {
+      case 'changetheme':
+        toggleTheme();
+        break;
+      case 'Add To Favorites':
+        id != null && addtofavorites(id);
+        break;
+      case 'Remove From Favorites':
+        id != null && removefromfavorites(id);
+        break;
+      case 'search':
+        clicked?.(id);
+        break;
+      default:
+        break;
+    }
+  }, [buttonType, id, clicked, addtofavorites, removefromfavorites, toggleTheme]);
 
-  //Style used in Button
+  // Define button styling
   const ButtonStyle = {
-    display: `flex`,
-    minWidth: dimension ? `${dimension.width}px` : `100%`,
-    minHeight: dimension ? `${dimension.height}px` : `100%`,
-    padding: `16px 32px`,
-    justifyContent: `center`,
-    alignItems: `center`,
+    display: 'flex',
+    minWidth: dimension.width ? `${dimension.width}px` : 'auto',
+    minHeight: dimension.height ? `${dimension.height}px` : 'auto',
+    padding: '16px 32px',
+    justifyContent: 'center',
+    alignItems: 'center',
     gap: '10px',
     borderRadius: '4px',
     fontFamily: 'Nunito',
     fontSize: '24px',
     fontWeight: '700',
-  }
+  };
 
-  const orangeTheme = {
+  const themeStyle = {
     ...ButtonStyle,
-    backgroundColor: `#fa6400`,
-    color: `#ffffff`,
-  }
-
-  const blueTheme = {
-    ...ButtonStyle,
-    backgroundColor: `#12333A`,
-    color: `#ffffff`,
-  }
-
-  const style = theme.state.theme === 'orangeTheme' ? orangeTheme : blueTheme;
+    backgroundColor: state.theme === 'orangeTheme' ? '#fa6400' : '#12333A',
+    color: '#ffffff',
+  };
 
   return (
-    <>
-      <button className="" style={style} onClick={onClicked}>{text}</button>
-    </>
-  )
+    <button style={themeStyle} onClick={onClicked}>
+      {text}
+    </button>
+  );
 }

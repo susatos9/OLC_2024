@@ -2,7 +2,7 @@ import { defaultHead } from 'next/head';
 import FoodCardList from './FoodCardList';
 import SearchField from './SearchField';
 import TextThemed from './TextThemed';
-import React, { useReducer, useEffect, useContext, ChangeEvent, useState } from 'react';
+import React, { useReducer, useEffect, useContext, ChangeEvent, useState, useCallback } from 'react';
 import Button from './Button';
 import ThemeContext, { MainData } from '../context/ThemeContext';
 
@@ -119,6 +119,19 @@ export default function({ type, text }: MenuFieldProps) {
     fetchData();
   }, [searchButtonClicked]);
 
+  const [favoritesSearchTerm, setFavoritesSearchTerm] = useState('');
+  const [favoritesSearchResult, setFavoritesSearchResult] = useState<Recipe[]>();
+  const handleFavoritesSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault;
+    setFavoritesSearchTerm(e.target.value);
+  }
+
+  const favoritesSearch = useCallback((e: ChangeEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const regex = new RegExp(favoritesSearchTerm);
+    setFavoritesSearchResult(globalState.favorites.filter(item => regex.test(item.title) ? item : null));
+  }, [favoritesSearchTerm, globalState.favorites]);
+
   let MenuFieldStyle = {
     display: 'flex',
     'flex-direction': 'column',
@@ -147,22 +160,33 @@ export default function({ type, text }: MenuFieldProps) {
     );
   }
 
+  const checkEmptyArray = (array: Recipe[] | undefined) => {
+    if (array === undefined) {
+      return true;
+    }
+    if (array.length === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   if (type === 'Remove From Favorites') {
     return (
       <div style={MenuFieldStyle}>
         {text && <TextThemed text={text} />}
-        <form className="flex flex-row gap-10" onSubmit={handleSubmit}>
+        <form className="flex flex-row gap-10">
           <input
-            value={state.searchTerm}
-            onChange={handleSearch}
+            value={favoritesSearchTerm}
+            onChange={handleFavoritesSearch}
             type="text"
             name="search"
             style={formstyle}
             className="search-field:focus search-field:valid search-field:not(:placeholder-shown)"
           />
-          <Button text="Search" buttonType="search" clicked={handleButtonClick} /> {/* No need for onClick, form submit handles it */}
+          <Button text="Search" buttonType="search" clicked={favoritesSearch} /> {/* No need for onClick, form submit handles it */}
         </form>
-        <FoodCardList type={type} data={globalState.favorites} />
+        <FoodCardList type={type} data={checkEmptyArray(favoritesSearchResult) ? globalState.favorites : favoritesSearchResult} />
       </div>
     );
   }

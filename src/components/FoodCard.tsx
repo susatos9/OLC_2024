@@ -3,6 +3,7 @@ import type { MainData } from '../context/ThemeContext';
 import TextThemed from '../components/TextThemed';
 import GetProperty from '../utility_function/GetProperty';
 import Image from 'next/image';
+import React from 'react';
 
 interface FoodCardProps {
   id?: number;
@@ -13,7 +14,7 @@ interface FoodCardProps {
   cardtype?: string;
 }
 
-export default function FoodCard({ id, base_image_url, menu_name, imageWidth, imageHeight, cardtype }: FoodCardProps) {
+const FoodCard: React.FC<FoodCardProps> = React.memo(({ id, base_image_url, menu_name, imageWidth, imageHeight, cardtype }: FoodCardProps) => {
   cardtype = cardtype ? cardtype : 'default';
   const foodCardstyle = {
     display: 'flex',
@@ -33,15 +34,16 @@ export default function FoodCard({ id, base_image_url, menu_name, imageWidth, im
 
   // let image_url: string = 'https://picsum.photos' + `/${imageStyle.width}/${imageStyle.height}`;
   let image_url = base_image_url ? base_image_url : 'https://picsum.photos' + `/${imageStyle.width}/${imageStyle.height}`;
-  const image = {};
 
   return (<>
     <div className="" style={foodCardstyle}>
       <img src={image_url} alt={menu_name} />
       {/* TextThemed(menu_name)} #another way to use TextThemed components */}
       <TextThemed text={menu_name} />
-      <Button id={id} text={cardtype} />
+      <Button id={id} text={cardtype} buttonType={cardtype} />
     </div >
   </>
   )
-}
+});
+
+export default FoodCard;

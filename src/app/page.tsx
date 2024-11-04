@@ -6,6 +6,7 @@ import SearchField from '../components/SearchField';
 import FoodCard from '../components/FoodCard';
 import Button from '@/components/Button';
 import MenuField from '@/components/MenuField';
+import FavoritesMenuField from '@/components/FavoritesMenuField';
 
 
 
@@ -36,7 +37,7 @@ export default function Home() {
     <ThemeContext.Provider value={{ state, setState }}>
       <div className='flex-col' style={style}>
         <Button text="Change Theme" buttonType="changetheme" />
-        <MenuField type='Remove From Favorites' text='Favorites' />
+        <FavoritesMenuField type='Remove From Favorites' text='Favorites' />
         <MenuField type='Add To Favorites' />
       </div>
     </ThemeContext.Provider>
