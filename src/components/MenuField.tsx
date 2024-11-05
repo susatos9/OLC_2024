@@ -1,6 +1,4 @@
-import { defaultHead } from 'next/head';
 import FoodCardList from './FoodCardList';
-import SearchField from './SearchField';
 import TextThemed from './TextThemed';
 import React, { useReducer, useEffect, useContext, ChangeEvent, useState, useCallback } from 'react';
 import Button from './Button';

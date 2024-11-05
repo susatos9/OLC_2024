@@ -33,17 +33,22 @@ const FoodCard: React.FC<FoodCardProps> = React.memo(({ id, base_image_url, menu
   }
 
   // let image_url: string = 'https://picsum.photos' + `/${imageStyle.width}/${imageStyle.height}`;
-  let image_url = base_image_url ? base_image_url : 'https://picsum.photos' + `/${imageStyle.width}/${imageStyle.height}`;
+  let image_url = base_image_url;
 
-  return (<>
-    <div style={foodCardstyle} className='flex-col'>
-      <img src={image_url} alt={menu_name} />
-      {/* TextThemed(menu_name)} #another way to use TextThemed components */}
-      <TextThemed text={menu_name} />
-      <Button id={id} text={cardtype} buttonType={cardtype} />
-    </div >
-  </>
-  )
+  if (image_url) {
+    return (<>
+      <div style={foodCardstyle} className='flex-col'>
+        <img src={image_url} alt={menu_name} />
+        {/* TextThemed(menu_name)} #another way to use TextThemed components */}
+        <TextThemed text={menu_name} />
+        <Button id={id} text={cardtype} buttonType={cardtype} />
+      </div >
+    </>
+    )
+  }
+  else {
+    return (null)
+  }
 });
 
 export default FoodCard;

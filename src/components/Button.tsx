@@ -1,4 +1,3 @@
-import type { MainData } from '../context/ThemeContext';
 import { useContext, useState, useCallback } from 'react';
 import ThemeContext from '../context/ThemeContext';
 import FavoritesContextValue from '@/context/FavoritesContext';
@@ -27,7 +26,7 @@ export default function Button({ id, dimension = {}, buttonType, text, clicked }
       setState({ ...state, favorites: updatedFavorites });
       console.log('Item added to favorites');
     } else {
-      console.log('Item not found');
+      console.log('Item not found or alreadyAdded');
     }
   }, [state, setState, favoritesState, setFavoritesState]);
 
@@ -36,7 +35,7 @@ export default function Button({ id, dimension = {}, buttonType, text, clicked }
     const selectedItem = state.favorites.find(item => item.id === id);
     if (selectedItem) {
       const updatedFavorites = state.favorites.filter(item => item.id !== id);
-      setFavoritesState(favoritesState.filter(item => item.id !== id) ? favoritesState.filter(item => item.id !== id) : [{ id: -Infinity, image: '', imageType: '', title: '' }]);
+      setFavoritesState(favoritesState.filter(item => item.id !== id) ? favoritesState.filter(item => item.id !== id) : [{ id: 0, image: '', imageType: '', title: '' }]);
       setState({ ...state, favorites: updatedFavorites });
       console.log('Item removed from favorites');
     } else {
