@@ -20,10 +20,12 @@ export default function Button({ id, dimension = {}, buttonType, text, clicked }
   const addtofavorites = useCallback((id: number) => {
     console.log(id);
     const alreadyAdded = state.favorites.find(item => item.id === id);
+    const alreadyAddedInFavorites = favoritesState.find(item => item.id === id);
     const selectedItem = state.searchResult.find(item => item.id === id);
     if (selectedItem && !alreadyAdded) {
       const updatedFavorites = [...state.favorites, selectedItem];
       setState({ ...state, favorites: updatedFavorites });
+      setFavoritesState([...favoritesState, selectedItem]);
       console.log('Item added to favorites');
     } else {
       console.log('Item not found or alreadyAdded');
@@ -35,7 +37,12 @@ export default function Button({ id, dimension = {}, buttonType, text, clicked }
     const selectedItem = state.favorites.find(item => item.id === id);
     if (selectedItem) {
       const updatedFavorites = state.favorites.filter(item => item.id !== id);
-      setFavoritesState(favoritesState.filter(item => item.id !== id) ? favoritesState.filter(item => item.id !== id) : [{ id: 0, image: '', imageType: '', title: '' }]);
+      setFavoritesState(favoritesState.filter(item => item.id !== id).length !== 0 ? favoritesState.filter(item => item.id !== id) : [{
+        id: 0,
+        title: '',
+        image: '',
+        imageType: '',
+      }]);
       setState({ ...state, favorites: updatedFavorites });
       console.log('Item removed from favorites');
     } else {
