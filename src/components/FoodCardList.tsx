@@ -15,16 +15,16 @@ interface FoodCardListProps {
 }
 
 const FoodCardList:React.FC<FoodCardListProps> = ({ type, data = [] }: FoodCardListProps) => {
-  const FoodCardListStyle = React.useMemo(() =>({
+  const FoodCardListStyle = {
     display: 'grid',
     gridTemplateColumn: 'repeat(auto-fill, minmax(350px, 1fr))',
     gap: '40px',
-  }), []);
+  };
 
   return (
     <div style={FoodCardListStyle} className="">
       {data.map((item, index) => (
-        <FoodCard id={item.id} menu_name={item.title} base_image_url={item.image} cardtype={type} />
+        <FoodCard key = {index} id={item.id} menu_name={item.title} base_image_url={item.image} cardtype={type} />
       ))}
     </div>
   );

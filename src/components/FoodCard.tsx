@@ -19,7 +19,7 @@ const FoodCard: React.FC<FoodCardProps> = React.memo(({ id, base_image_url, menu
   const foodCardstyle = {
     display: 'flex',
     padding: '24px',
-    'flex-direction': 'column',
+    // 'flex-direction': 'column',
     justifyContent: 'center',
     alignItems: 'center',
     gap: '23px',
@@ -36,7 +36,7 @@ const FoodCard: React.FC<FoodCardProps> = React.memo(({ id, base_image_url, menu
   let image_url = base_image_url ? base_image_url : 'https://picsum.photos' + `/${imageStyle.width}/${imageStyle.height}`;
 
   return (<>
-    <div className="" style={foodCardstyle}>
+    <div style={foodCardstyle} className='flex-col'>
       <img src={image_url} alt={menu_name} />
       {/* TextThemed(menu_name)} #another way to use TextThemed components */}
       <TextThemed text={menu_name} />

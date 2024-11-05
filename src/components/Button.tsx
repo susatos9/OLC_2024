@@ -1,6 +1,7 @@
 import type { MainData } from '../context/ThemeContext';
 import { useContext, useState, useCallback } from 'react';
 import ThemeContext from '../context/ThemeContext';
+import FavoritesContextValue from '@/context/FavoritesContext';
 
 interface ButtonProps {
   id?: number;
@@ -13,6 +14,9 @@ interface ButtonProps {
 export default function Button({ id, dimension = {}, buttonType, text, clicked }: ButtonProps) {
   console.log(id);
   const { state, setState } = useContext(ThemeContext);
+  const favoritesContext = useContext(FavoritesContextValue);
+  const favoritesState = favoritesContext.state;
+  const setFavoritesState = favoritesContext.setState;
 
   const addtofavorites = useCallback((id: number) => {
     console.log(id);
@@ -25,19 +29,20 @@ export default function Button({ id, dimension = {}, buttonType, text, clicked }
     } else {
       console.log('Item not found');
     }
-  }, [state, setState]);
+  }, [state, setState, favoritesState, setFavoritesState]);
 
   const removefromfavorites = useCallback((id: number) => {
     console.log(id);
     const selectedItem = state.favorites.find(item => item.id === id);
     if (selectedItem) {
       const updatedFavorites = state.favorites.filter(item => item.id !== id);
+      setFavoritesState(favoritesState.filter(item => item.id !== id) ? favoritesState.filter(item => item.id !== id) : [{ id: -Infinity, image: '', imageType: '', title: '' }]);
       setState({ ...state, favorites: updatedFavorites });
       console.log('Item removed from favorites');
     } else {
       console.log('Item not found');
     }
-  }, [state, setState]);
+  }, [state, setState, favoritesState, setFavoritesState]);
 
   const toggleTheme = useCallback(() => {
     const newTheme = state.theme === 'orangeTheme' ? 'blueTheme' : 'orangeTheme';

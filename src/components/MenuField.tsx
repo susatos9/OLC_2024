@@ -134,7 +134,7 @@ export default function({ type, text }: MenuFieldProps) {
 
   let MenuFieldStyle = {
     display: 'flex',
-    'flex-direction': 'column',
+    // 'flex-direction': 'column',
     alignItems: 'center',
     gap: '40px',
     alignSelf: 'stretch',
@@ -142,7 +142,7 @@ export default function({ type, text }: MenuFieldProps) {
 
   if (type === 'Add To Favorites') {
     return (
-      <div style={MenuFieldStyle}>
+      <div className='flex-col' style={MenuFieldStyle}>
         {text && <TextThemed text={text} />}
         <form className="flex flex-row gap-10" onSubmit={handleSubmit}>
           <input
